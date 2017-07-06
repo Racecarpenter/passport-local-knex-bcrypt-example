@@ -39,12 +39,16 @@ passport.use(new LocalStrategy(
   function(username, password, done) {
     knex('users').select().where('email', username).then(function(user) {
       // Check if user doesn't exist
-      if(user.length < 1) {
-        return done(null, false, { message: 'Incorrect username.' });
+      if (user.length < 1) {
+        return done(null, false, {
+          message: 'Incorrect username.'
+        });
       }
       // Check if password is invalid
-      if(!bcrypt.compareSync(password, user[0].password)) {
-        return done(null, false, { message: 'Incorrect password.' });
+      if (!bcrypt.compareSync(password, user[0].password)) {
+        return done(null, false, {
+          message: 'Incorrect password.'
+        });
       }
       // If all passes tests, then let the user in
       return done(null, user[0]);
@@ -58,12 +62,10 @@ app.post('/login', passport.authenticate('local', {
 }));
 
 passport.serializeUser(function(user, done) {
-  console.log('serializeUser', user);
   done(null, user);
 });
 
 passport.deserializeUser(function(id, done) {
-  console.log('deserializeUser', id);
   done(null, id);
 });
 

@@ -23,6 +23,7 @@ router.get('/signup', function(req, res) {
   res.render('signup');
 });
 
+
 router.post('/signup', function(req, res) {
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(req.body.password, salt, function(err, hashedPassword) {
@@ -31,11 +32,12 @@ router.post('/signup', function(req, res) {
         email: req.body.email,
         password: hashedPassword
       }).then(function() {
-        res.redirect('/');
+        res.redirect('/user');
       });
     });
   });
 });
+
 
 router.get('/user', checkAuthed, function(req, res) {
   res.render('user', {
